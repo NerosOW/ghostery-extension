@@ -1711,11 +1711,11 @@ async function init() {
 
 		// ensure onboarding is show to fully functional extension only
 		// (for the reminder, add 60 seconds drift to avoid clashing with the 24 hour cooldown)
-		await tryOpenOnboarding();
+		await tryOpenOnboarding({ period: ONE_MINUTE_MSEC });
 		setInterval(() => {
 			log('run onboarding reminder (only if the extension is installed but inactive)...');
-			tryOpenOnboarding().catch(alwaysLog);
-		}, ONE_DAY_MSEC + ONE_MINUTE_MSEC);
+			tryOpenOnboarding({ period: ONE_MINUTE_MSEC }).catch(alwaysLog);
+		}, ONE_MINUTE_MSEC + ONE_MINUTE_MSEC);
 	} catch (err) {
 		err.name = 'InitError';
 		ErrorReporter.captureException(err);
