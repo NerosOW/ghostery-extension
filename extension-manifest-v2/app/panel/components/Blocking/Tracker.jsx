@@ -96,17 +96,16 @@ class Tracker extends React.Component {
 
 	static _renderCommonFingerprintStat(count) { return Tracker._renderCommonStat(count, 'fingerprint'); }
 
-	static _renderCommonAdStat(count) { return Tracker._renderCommonStat(count, 'ad'); }
+	static _renderCommonAdStat(count) { return Tracker._renderCommonStat(count, 'request'); }
 
 	static _renderCommonStat(count, type) {
 		const exactlyOne = count === 1;
 		const label = exactlyOne ?
 			t(`${type}`) :
 			t(`${type}s`);
-		const cssClass = `trk-common-stat trk-common-stat-${type}s-count`;
 
 		return (
-			<span className={cssClass}>
+			<span className="trk-common-stat">
 				{count}
 				{' '}
 				{label}
@@ -284,17 +283,17 @@ class Tracker extends React.Component {
 
 		return (
 			<div className="trk-common-stats-outer-container">
+				{oneOrMoreAds && (
+					<div className="trk-common-stats-container">
+						{this._renderCommonAdsIcon()}
+						{Tracker._renderCommonAdStat(commonAdCount)}
+					</div>
+				)}
 				{(oneOrMoreCookies || oneOrMoreFingerprints) && (
 					<div className="trk-common-stats-container">
 						{this._renderCommonCookiesAndFingerprintsIcon()}
 						{oneOrMoreCookies && Tracker._renderCommonCookieStat(commonCookieCount)}
 						{oneOrMoreFingerprints && Tracker._renderCommonFingerprintStat(commonFingerprintCount)}
-					</div>
-				)}
-				{oneOrMoreAds && (
-					<div className="trk-common-stats-container">
-						{this._renderCommonAdsIcon()}
-						{Tracker._renderCommonAdStat(commonAdCount)}
 					</div>
 				)}
 			</div>
@@ -367,26 +366,6 @@ class Tracker extends React.Component {
 							{tracker.name}
 						</div>
 						{!tracker.whitelisted && this._renderCommonStatsContainer()}
-					</div>
-					<div className="columns shrink align-self-justify collapse-right">
-						{setup_complete && (
-							<React.Fragment>
-								{!isUnidentified && renderKnownTrackerButtons(
-									tracker.ss_allowed,
-									tracker.ss_blocked,
-									this.clickTrackerTrust,
-									this.clickTrackerRestrict,
-									this.clickTrackerStatus,
-								)}
-								{isUnidentified && renderUnidentifiedTrackerButtons(
-									this.handleCommonTrackerWhitelist,
-									tracker.whitelisted,
-									tracker.siteRestricted,
-									tracker.type,
-									this.context
-								)}
-							</React.Fragment>
-						)}
 					</div>
 				</div>
 				{showMoreInfo && (
