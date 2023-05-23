@@ -69,7 +69,7 @@ export default {
           <ui-text>
             <a
               href="${session.user
-                ? 'https://account.ghostery.com/'
+                ? chrome.runtime.getURL('/pages/settings/index.html#account')
                 : 'https://signon.ghostery.com/'}"
               target="_blank"
               layout="block padding margin:0:1"
